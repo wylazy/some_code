@@ -1,0 +1,99 @@
+set nu
+set ts=4
+set shiftwidth=4
+set noswf
+set nobackup
+set expandtab
+set autoread
+set autoindent
+set nocompatible               " be iMproved
+filetype off                   " required!
+set hlsearch
+
+" set fenc=gb18030
+set fenc=utf-8
+set encoding=utf-8
+set fileencodings=utf-8,chinese,ISO_8859,GBK,GB18030
+
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+hi DiffAdd    ctermfg=204  ctermbg=4  cterm=bold
+hi DiffChange ctermfg=240  ctermbg=5  cterm=bold
+hi DiffDelete ctermfg=69  ctermbg=4 cterm=bold
+hi DiffText   ctermfg=16  ctermbg=1 cterm=bold
+
+" hi DiffChange term=bold ctermbg=3 guibg=LightMagenta
+" hi DiffText   guibg=#ff0000 guifg=fg gui=bold term=reverse cterm=bold ctermbg=8
+
+" let Vundle manage Vundle
+" required! 
+Bundle 'gmarik/vundle'
+
+" My Bundles here:
+"
+" original repos on github
+Bundle 'tpope/vim-fugitive'
+
+" vim-scripts repos
+Bundle 'vim-scripts/L9'
+Bundle 'vim-scripts/FuzzyFinder'
+Bundle 'vim-scripts/AutoComplPop'
+Bundle 'vim-scripts/Auto-Pairs'
+Bundle 'vim-scripts/The-NERD-tree'
+Bundle 'vimcn/NERD_tree.vim.cnx'
+Bundle 'vim-scripts/taglist.vim'
+" Bundle 'endel/vim-github-colorscheme'
+
+" Other repos
+" Bundle 'Valloric/YouCompleteMe'
+
+hi Pmenu        ctermbg=4   ctermfg=White   cterm=bold
+hi PmenuSel     ctermbg=16  ctermfg=230     cterm=italic
+" hi PmenuSbar    ctermbg=150 ctermfg=241
+" hi PmenuThumb   ctermbg=140 ctermfg=140
+
+set background=dark
+filetype plugin indent on
+syntax on
+
+set cscopequickfix=s-,c-,d-,i-,t-,e-
+
+nmap <silent> `ff :FufFile<CR>
+nmap <F5> :cp<CR>
+nmap <F6> :cn<CR>
+nmap <F2> :bp<CR>
+nmap <F3> :bn<CR>
+nmap <F8> :make %:r<CR>
+nmap <C-_> :cs find s <C-R>=expand("<cword>")<CR><CR>
+
+if has("cscope")  
+    set csto=0  
+    set cst  
+    set nocsverb  
+    " add any database in current directory  
+    if filereadable("cscope.out")  
+        cs add cscope.out  
+    " else add database pointed to by environment  
+    elseif $CSCOPE_DB != ""  
+        cs add $CSCOPE_DB  
+    endif  
+    set csverb  
+endif 
+
+function InsertPythonHeader()
+  let l1 = getline(1)
+  let l2 = getline(2)
+  if  match('\#!/', l1) == 0
+    exec 1
+    normal O
+    call setline(1,'#!/usr/bin/env python')
+  endif
+  if match("\#", l2) == 0 && (match("-", l2)  != 2 || (match("code", l2) != 2))
+    exec 2
+    normal O
+    call setline(2,'#-*- coding:utf-8 -*-')
+  endif
+endfunction
+
+au FileType python call InsertPythonHeader()
