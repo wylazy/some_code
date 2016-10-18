@@ -19,6 +19,9 @@ set fenc=utf-8
 set encoding=utf-8
 set fileencodings=utf-8,chinese,ISO_8859,GBK,GB18030
 
+:highlight ExtraWhitespace ctermbg=red guibg=red
+:match ExtraWhitespace /\s\+$\| \+\ze\t/
+
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
@@ -31,7 +34,7 @@ hi DiffText   ctermfg=16  ctermbg=1 cterm=bold
 " hi DiffText   guibg=#ff0000 guifg=fg gui=bold term=reverse cterm=bold ctermbg=8
 
 " let Vundle manage Vundle
-" required! 
+" required!
 Plugin 'gmarik/Vundle.vim'
 
 " My Bundles here:
@@ -85,19 +88,19 @@ let g:fuf_abbrevMap = {
         \],
     \ }
 
-if has("cscope")  
-    set csto=0  
-    set cst  
-    set nocsverb  
-    " add any database in current directory  
-    if filereadable("cscope.out")  
-        cs add cscope.out  
-    " else add database pointed to by environment  
-    elseif $CSCOPE_DB != ""  
-        cs add $CSCOPE_DB  
-    endif  
-    set csverb  
-endif 
+if has("cscope")
+    set csto=0
+    set cst
+    set nocsverb
+    " add any database in current directory
+    if filereadable("cscope.out")
+        cs add cscope.out
+    " else add database pointed to by environment
+    elseif $CSCOPE_DB != ""
+        cs add $CSCOPE_DB
+    endif
+    set csverb
+endif
 
 function InsertPythonHeader()
   let l1 = getline(1)
