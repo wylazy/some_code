@@ -6,17 +6,21 @@ set nobackup
 set expandtab
 set autoread
 set autoindent
+set cindent
+set cinoptions=g0
 set nocompatible               " be iMproved
 filetype off                   " required!
 set hlsearch
+set backspace=2
 
+set expandtab ts=4 sw=4 sts=4 tw=100
 " set fenc=gb18030
 set fenc=utf-8
 set encoding=utf-8
 set fileencodings=utf-8,chinese,ISO_8859,GBK,GB18030
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
 hi DiffAdd    ctermfg=204  ctermbg=4  cterm=bold
 hi DiffChange ctermfg=240  ctermbg=5  cterm=bold
@@ -28,44 +32,58 @@ hi DiffText   ctermfg=16  ctermbg=1 cterm=bold
 
 " let Vundle manage Vundle
 " required! 
-Bundle 'gmarik/vundle'
+Plugin 'gmarik/Vundle.vim'
 
 " My Bundles here:
 "
 " original repos on github
-Bundle 'tpope/vim-fugitive'
+Plugin 'tpope/vim-fugitive'
 
 " vim-scripts repos
-Bundle 'vim-scripts/L9'
-Bundle 'vim-scripts/FuzzyFinder'
-Bundle 'vim-scripts/AutoComplPop'
-Bundle 'vim-scripts/Auto-Pairs'
-Bundle 'vim-scripts/The-NERD-tree'
-Bundle 'vimcn/NERD_tree.vim.cnx'
-Bundle 'vim-scripts/taglist.vim'
+Plugin 'vim-scripts/L9'
+Plugin 'vim-scripts/FuzzyFinder'
+Plugin 'vim-scripts/AutoComplPop'
+Plugin 'vim-scripts/Auto-Pairs'
+Plugin 'vim-scripts/The-NERD-tree'
+Plugin 'vimcn/NERD_tree.vim.cnx'
+Plugin 'vim-scripts/taglist.vim'
+Plugin 'nsf/gocode', {'rtp': 'vim/'}
+Plugin 'fatih/vim-go'
 " Bundle 'endel/vim-github-colorscheme'
 
 " Other repos
 " Bundle 'Valloric/YouCompleteMe'
+
+call vundle#end()            " required
+filetype plugin indent on    " required
 
 hi Pmenu        ctermbg=4   ctermfg=White   cterm=bold
 hi PmenuSel     ctermbg=16  ctermfg=230     cterm=italic
 " hi PmenuSbar    ctermbg=150 ctermfg=241
 " hi PmenuThumb   ctermbg=140 ctermfg=140
 
-set background=dark
-filetype plugin indent on
 syntax on
 
 set cscopequickfix=s-,c-,d-,i-,t-,e-
 
-nmap <silent> `ff :FufFile<CR>
+map `o :tabnew %:p:h<CR>
+nnoremap <silent> `ff :FufFile<CR>
+
 nmap <F5> :cp<CR>
 nmap <F6> :cn<CR>
 nmap <F2> :bp<CR>
 nmap <F3> :bn<CR>
 nmap <F8> :make %:r<CR>
 nmap <C-_> :cs find s <C-R>=expand("<cword>")<CR><CR>
+
+let g:fuf_abbrevMap = {
+    \   "^semi" : [
+        \ "plugin/semisync/",
+        \ ],
+    \   "^inno": [
+        \ "storage/innobase/"
+        \],
+    \ }
 
 if has("cscope")  
     set csto=0  
@@ -97,3 +115,6 @@ function InsertPythonHeader()
 endfunction
 
 au FileType python call InsertPythonHeader()
+
+let g:go_fmt_autosave = 0
+let g:go_highlight_trailing_whitespace_error = 0
